@@ -1,4 +1,4 @@
-#include "picasso.h"
+#include <picasso/picasso.h>
 
 //#define DEBUG
 #define BUF g_outputBuf
