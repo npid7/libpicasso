@@ -12,8 +12,8 @@ set(APP_TITLE "${PROJECT_NAME}")
 set(APP_DESCRIPTION "Example of Lib Picasso")
 set(APP_AUTHOR "Tobi-D7, tobid7vx")
 
-#set(APP_ICON "${PROJECT_SOURCE_DIR}/app/icon.png")
-#set(APP_ROMFS "${PROJECT_SOURCE_DIR}/romfs")
+set(APP_ICON "/opt/devkitpro/libctru/default_icon.png")
+set(APP_ROMFS "${PROJECT_SOURCE_DIR}/romfs")
 
 enable_language(ASM)
 
@@ -25,16 +25,16 @@ add_executable(${PROJECT_NAME}.elf src/main.cpp)
 target_include_directories(${PROJECT_NAME}.elf PRIVATE src ../include)
 
 target_link_libraries(${PROJECT_NAME}.elf citro2d citro3d ctru m picasso)
-#"${APP_ICON}"
+
 add_custom_command(
 	OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.smdh
-	COMMAND smdhtool --create "${APP_TITLE}" "${APP_DESCRIPTION}" "${APP_AUTHOR}"  "/opt/devkitpro/libctru/default_icon.png" ${PROJECT_NAME}.smdh
+	COMMAND smdhtool --create "${APP_TITLE}" "${APP_DESCRIPTION}" "${APP_AUTHOR}"  "${APP_ICON}" ${PROJECT_NAME}.smdh
     DEPENDS ${PROJECT_NAME}.elf
 )
-#--romfs=${APP_ROMFS}
+
 add_custom_command(
 	OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.3dsx
-	COMMAND 3dsxtool ${PROJECT_NAME}.elf ${PROJECT_NAME}.3dsx --smdh=${PROJECT_NAME}.smdh
+	COMMAND 3dsxtool ${PROJECT_NAME}.elf ${PROJECT_NAME}.3dsx --romfs=${APP_ROMFS} --smdh=${PROJECT_NAME}.smdh
 	DEPENDS ${PROJECT_NAME}.elf
 )
 

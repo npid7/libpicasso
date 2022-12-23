@@ -134,8 +134,10 @@ int main()
 {
 	// Initialize graphics
 	gfxInitDefault();
+    romfsInit();
 	C3D_Init(C3D_DEFAULT_CMDBUF_SIZE);
-    vshader_shbin = Pica::AssembleCode(vertShader, vshader_shbin_size);
+    //vshader_shbin = Pica::AssembleCode(vertShader, vshader_shbin_size);
+    vshader_shbin = Pica::AssembleFile("romfs:/vshader.pica", vshader_shbin_size);
 
 	// Initialize the render target
 	C3D_RenderTarget* target = C3D_RenderTargetCreate(240, 400, GPU_RB_RGBA8, GPU_RB_DEPTH24_STENCIL8);

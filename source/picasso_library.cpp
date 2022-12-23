@@ -28,9 +28,8 @@ uint32_t f32tof24(float f) {
   return (sign << 23) | (exponent << 16) | mantissa;
 }
 
-void BasicHandler(const char *top, const char *message)
-{
-    std::cout << top << std::endl << message << std::endl;
+void BasicHandler(const char *top, const char *message) {
+  std::cout << top << std::endl << message << std::endl;
 }
 
 static void (*EHND)(const char *top, const char *message) = BasicHandler;
@@ -188,5 +187,13 @@ char *AssembleCode(const char *vertex, int &res_size) {
   }
   res_size = f.Tell();
   return (char *)f.get_ptr()->str().c_str();
+}
+
+char *AssembleFile(const char *file, int &res_size) {
+  char *sourceCode = StringFromFile(file);
+  if (!sourceCode) {
+    EHND("error:", "cannot open input file!\n");
+  }
+  return AssembleCode(sourceCode, res_size);
 }
 } // namespace Pica
