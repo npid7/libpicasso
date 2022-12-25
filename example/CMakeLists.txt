@@ -7,7 +7,6 @@ set(CMAKE_EXE_LINKER_FLAGS "-L${DEVKITPRO}/libctru/lib -L${DEVKITPRO}/picaGL/lib
 include_directories(${DEVKITPRO}/libctru/include ${DEVKITPRO}/picaGL/include ${DEVKITPRO}/portlibs/3ds/include)
 add_definitions("-D__3DS__")
 
-
 set(APP_TITLE "${PROJECT_NAME}")
 set(APP_DESCRIPTION "Example of Lib Picasso")
 set(APP_AUTHOR "Tobi-D7, tobid7vx")
