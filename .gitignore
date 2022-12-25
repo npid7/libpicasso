@@ -26,6 +26,5 @@ missing
 config.log
 config.status
 Makefile
-picasso
 .deps/
 *.bz2

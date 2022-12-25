@@ -1,7 +1,7 @@
 #include <3ds.h>
 #include <citro3d.h>
 
-#include <picasso.hpp>
+#include <pica.hpp>
 
 static const char *const vertShader = R"text(  
 ; Example PICA200 vertex shader
