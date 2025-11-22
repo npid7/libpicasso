@@ -1,5 +1,7 @@
 #include "picasso/picasso.h"
 
+#include <string>
+
 //#define DEBUG
 #define BUF g_outputBuf
 #define NO_MORE_STACK (g_stackPos==MAX_STACK)
@@ -217,10 +219,13 @@ static int parseInt(char* pos, int& out, long long min, long long max)
 static int ProcessCommand(const char* cmd);
 static int FixupLabelRelocations();
 
-int AssembleString(char* str, const char* initialFilename)
+int AssembleString(const std::string& code, const char* initialFilename)
 {
 	curFile = initialFilename;
 	curLine = 1;
+	
+	std::string cpy = code;
+	char* str = cpy.data();
 
 	ClearStatus();
 

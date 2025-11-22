@@ -2,21 +2,10 @@ cmake_minimum_required(VERSION 3.22)
 
 project(picasso VERSION 0.5.2 LANGUAGES CXX DESCRIPTION "Picasso Shadercompiler on the Nintendo 3ds")
 
-include(CMakePackageConfigHelpers)
-
-if(NOT CMAKE_BUILD_TYPE)
-        set(CMAKE_BUILD_TYPE Release CACHE STRING
-                "Choose the type of build, options are: None Debug Release."
-                FORCE)
-endif(NOT CMAKE_BUILD_TYPE)
-
-if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-        set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE STRING
-                "The install location"
-                FORCE)
-endif(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-
-include_directories(include)
+if(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Nintendo3DS")
+message(STATUS "Not building for 3ds. Assembler included!")
+set(PICA_BUILD_ASSEMBLER ON)
+endif()
 
 set(HEADER_FILES
         include/pica.hpp
@@ -29,12 +18,18 @@ set(SOURCE_FILES
         source/picasso_assembler.cpp
         source/picasso_library.cpp)
 
-add_library(${PROJECT_NAME}
+add_library(pica
         ${HEADER_FILES}
         ${SOURCE_FILES})
 
-add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+add_library(pica::pica ALIAS pica)
 
-set(PROJECT_PREFIX ${PROJECT_NAME}-${picasso_VERSION})
+set(PROJECT_PREFIX pica-${picasso_VERSION})
 
-target_include_directories(${PROJECT_NAME} PUBLIC include)
+target_include_directories(pica PUBLIC include)
+
+if(${PICA_BUILD_ASSEMBLER})
+add_executable(picasso source/picasso_frontend.cpp)
+target_link_libraries(picasso PRIVATE pica)
+target_compile_definitions(picasso PRIVATE PACKAGE_STRING="picasso ${picasso_VERSION}")
+endif()

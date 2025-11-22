@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
 
+find_program(3DSXTOOL 3dsxtool)
+find_program(SMDHTOOL smdhtool)
+
 project(linpicasso_sample)
 
 set(CMAKE_EXE_LINKER_FLAGS "-L${DEVKITPRO}/libctru/lib -L${DEVKITPRO}/picaGL/lib -L${DEVKITPRO}/portlibs/3ds/lib -specs=3dsx.specs -Wl,--gc-sections")

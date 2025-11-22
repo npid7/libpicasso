@@ -158,7 +158,7 @@ extern aliasTableType g_aliases;
 
 extern bool g_autoNop;
 
-int AssembleString(char* str, const char* initialFilename);
+int AssembleString(const std::string& code, const char* initialFilename);
 int RelocateProduct(void);
 
 //-----------------------------------------------------------------------------

@@ -1,5 +1,6 @@
 #include <pica.hpp>
 #include <picasso/picasso.h>
+#ifndef __3DS__
 // f24 has:
 //  - 1 sign bit
 //  - 7 exponent bits
@@ -27,6 +28,7 @@ uint32_t f32tof24(float f) {
 
   return (sign << 23) | (exponent << 16) | mantissa;
 }
+#endif
 
 void BasicHandler(const char *top, const char *message) {
   std::cout << top << std::endl << message << std::endl;
@@ -41,11 +43,11 @@ void InstallErrorCallback(void (*ErrorHandler)(const char *top,
   EHND = ErrorHandler;
 }
 
-char *AssembleCode(const char *vertex, int &res_size) {
+std::vector<u8> AssembleCode(const std::string& vertex) {
   int rc = 0;
-  rc = AssembleString((char *)vertex, "llc_npi");
+  rc = AssembleString(vertex.c_str(), "llc_npi");
   if (rc) {
-    EHND("Error when Assembling Code", vertex);
+    EHND("Error when Assembling Code", vertex.c_str());
   }
 
   rc = RelocateProduct();
@@ -185,15 +187,14 @@ char *AssembleCode(const char *vertex, int &res_size) {
     for (int i = 0; i < pad; i++)
       f.WriteByte(0);
   }
-  res_size = f.Tell();
-  return (char *)f.get_ptr()->str().c_str();
+  return std::vector<u8>(f.get_ptr()->str().c_str(), f.get_ptr()->str().c_str()+f.Tell());
 }
 
-char *AssembleFile(const char *file, int &res_size) {
-  char *sourceCode = StringFromFile(file);
+std::vector<u8> AssembleFile(const std::string& file) {
+  char *sourceCode = StringFromFile(file.c_str());
   if (!sourceCode) {
     EHND("error:", "cannot open input file!\n");
   }
-  return AssembleCode(sourceCode, res_size);
+  return AssembleCode(sourceCode);
 }
 } // namespace Pica

@@ -14,7 +14,9 @@ typedef uint32_t u32;
 typedef uint16_t u16;
 typedef uint8_t u8;
 
+#ifndef BIT
 #define BIT(n) (1U << (n))
+#endif
 
 #ifndef __BYTE_ORDER__
 #include <sys/param.h>
