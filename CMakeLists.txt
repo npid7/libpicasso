@@ -26,7 +26,11 @@ add_library(pica::pica ALIAS pica)
 
 set(PROJECT_PREFIX pica-${picasso_VERSION})
 
-target_include_directories(pica PUBLIC include)
+target_include_directories(pica
+    PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+)
 
 if(${PICA_BUILD_ASSEMBLER})
 add_executable(picasso source/picasso_frontend.cpp)
