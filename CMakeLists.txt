@@ -35,5 +35,5 @@ target_include_directories(pica
 if(${PICA_BUILD_ASSEMBLER})
 add_executable(picasso source/picasso_frontend.cpp)
 target_link_libraries(picasso PRIVATE pica)
-target_compile_definitions(picasso PRIVATE PACKAGE_STRING="picasso ${picasso_VERSION}")
+target_compile_definitions(picasso PRIVATE PACKAGE_STRING="picasso ${picasso_VERSION}" PICA_FRONTEND)
 endif()

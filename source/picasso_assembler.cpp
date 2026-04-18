@@ -73,6 +73,13 @@ struct UniformAllocBundle
 		boolAlloc.ClearLocal();
 	}
 
+	void resetAllState()
+	{
+		fvecAlloc.Reinit(0x20, 0x80);
+		ivecAlloc.Reinit(0x80, 0x84);
+		boolAlloc.Reinit(0x88, 0x98);
+	}
+
 	void initForGsh(int firstFree)
 	{
 		fvecAlloc.Reinit(firstFree, 0x80);
@@ -113,6 +120,38 @@ static void ClearStatus(void)
 	g_labelRelocTable.clear();
 	g_aliases.clear();
 	curDvle = NULL;
+}
+
+static void ResetAll()
+{
+    g_outputBuf.clear();
+
+    g_stackPos = 0;
+
+    g_opdescCount = 0;
+    g_opdescIsMad = 0;
+
+    g_uniformCount = 0;
+
+    g_constArray.clear();
+    g_constArraySize = -1;
+    g_constArrayName = NULL;
+
+    g_procTable.clear();
+    g_dvleTable.clear();
+    g_procRelocTable.clear();
+
+    g_labels.clear();
+    g_labelRelocTable.clear();
+    g_aliases.clear();
+
+    g_totalDvleCount = 0;
+
+    curDvle = NULL;
+
+    unifAlloc[0].resetAllState();
+    unifAlloc[1].resetAllState();
+	lastWasEnd = false;
 }
 
 static DVLEData* GetDvleData(void)
@@ -221,6 +260,9 @@ static int FixupLabelRelocations();
 
 int AssembleString(const std::string& code, const char* initialFilename)
 {
+#ifndef PICA_FRONTEND
+	ResetAll();
+#endif
 	curFile = initialFilename;
 	curLine = 1;
 	
