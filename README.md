@@ -8,13 +8,29 @@
 
 ## Building
 
-A working C++ compiler for the host is required (Windows users: use TDM-GCC), plus autotools. Use the following commands to build the program:
+### Compiler frontend
 
-    ./autogen.sh
-    ./configure
-    make
+A working C++ compiler with at least `C++11` Support is required as well as cmake
+
+Building:
+
+```bash
+cmake -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build
+```
+### Library
+
+Run the following commands
+
+```bash
+cmake -B build -DCMAKE_BUILD_TYPE=Release --toolchain /opt/devkitpro/cmake/3DS.cmake
+cmake --build build
+```
+
+Installing is not supported (yet)
 
 ## Shout-outs
 
+- **fincs** for making picasso
 - **smea** for reverse-engineering the PICA200, writing documentation, working hard & making `aemstro_as.py` (the original homebrew PICA200 shader assembler)
 - **neobrain** for making `nihstro-assemble`, whose syntax inspired that of `picasso` and whose usage of boost inspired me to make my own assembler without hefty dependencies.

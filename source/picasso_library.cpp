@@ -1,17 +1,20 @@
 #include <pica.hpp>
-#include <picasso/picasso.h>
+#include <picasso.h>
+
+#include <iostream>
+
 #ifndef __3DS__
 // f24 has:
 //  - 1 sign bit
 //  - 7 exponent bits
 //  - 16 mantissa bits
-uint32_t f32tof24(float f) {
-  uint32_t i;
+u32 f32tof24(float f) {
+  u32 i;
   memcpy(&i, &f, sizeof(f));
 
-  uint32_t mantissa = (i << 9) >> 9;
+  u32 mantissa = (i << 9) >> 9;
   int32_t exponent = (i << 1) >> 24;
-  uint32_t sign = (i << 0) >> 31;
+  u32 sign = (i << 0) >> 31;
 
   // Truncate mantissa
   mantissa >>= 7;
@@ -28,6 +31,8 @@ uint32_t f32tof24(float f) {
 
   return (sign << 23) | (exponent << 16) | mantissa;
 }
+#else
+#include <3ds.h>
 #endif
 
 void BasicHandler(const char *top, const char *message) {

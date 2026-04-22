@@ -1,26 +1,18 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(picasso VERSION 0.5.2 LANGUAGES CXX DESCRIPTION "Picasso Shadercompiler on the Nintendo 3ds")
+project(picasso VERSION 0.6.0 LANGUAGES CXX DESCRIPTION "Picasso Shader Compiler on the Nintendo 3ds")
 
 if(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Nintendo3DS")
 message(STATUS "Not building for 3ds. Assembler included!")
 set(PICA_BUILD_ASSEMBLER ON)
 endif()
 
-set(HEADER_FILES
-        include/pica.hpp
-        include/picasso/picasso.h
-        include/picasso/types.h
-        include/picasso/FileClass.h
-        include/picasso/maestro_opcodes.h)
-
 set(SOURCE_FILES
         source/picasso_assembler.cpp
-        source/picasso_library.cpp)
+        source/picasso_library.cpp
+)
 
-add_library(pica
-        ${HEADER_FILES}
-        ${SOURCE_FILES})
+add_library(pica ${SOURCE_FILES})
 
 add_library(pica::pica ALIAS pica)
 
@@ -30,6 +22,10 @@ target_include_directories(pica
     PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
+)
+target_include_directories(pica
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/source/private
 )
 
 if(${PICA_BUILD_ASSEMBLER})

@@ -1,5 +1,6 @@
 #pragma once
-#include <stdint.h>
+
+#include <cstdint>
 
 typedef uint64_t dword_t;
 typedef uint32_t word_t;

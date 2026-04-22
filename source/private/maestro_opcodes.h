@@ -1,4 +1,5 @@
 #pragma once
+
 enum
 {
 	MAESTRO_ADD = 0x00,
